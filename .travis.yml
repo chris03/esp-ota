@@ -1,17 +1,24 @@
 language: python
 python:
-    - "2.7"
-
+- '2.7'
 sudo: false
 cache:
-    directories:
-        - "~/.platformio"
-
+  directories:
+  - "~/.platformio"
 install:
-     - pip install -U platformio
-     - platformio update
-     - echo "const char *ssid = \"\";" > src/secrets.h
-     - echo "const char *password = \"\";" >> src/secrets.h
-
+- pip install -U platformio
+- platformio update
+- echo "const char *ssid = \"\";" > src/secrets.h
+- echo "const char *password = \"\";" >> src/secrets.h
 script:
-    - platformio run
+- platformio run
+deploy:
+  provider: releases
+  api_key:
+    secure: q9qPRaBVOJqFbT1fK8f94SehxkZxWpRhxyHAvKCF/5IPT1nRk8rlGz06Wm3bgRZoiBNbXfOtSnj1JUOqUQjUxbrW8QyLZ/4TCh55ANPzekZsg8sB+wDRMeWoPWTkaWI91KPZHHf+A7m1aJ3cjLdUNNuMr/2FEEK07E2p7nDii7afSvLy6RmU4HCTM8e8aOELAjYFZoPnLGVNuH2sRZmI2FZuQ5d1Lzadp7lnE3O5g4ZEDFBSdp8HtveYJTPoET5XD6nYVWetTDJLjRtErzZcWQHMNTgE3DvOS0C/i6w539TMN0P4jNr+pAkECQOvElwwr9hE1KlghgeXo+Km6oETKcrdMzp/uF0if7bktWusr8Ox+Mfedh8mCgwlejPE377betp/m4C9VfUa3WnS6jVcJhuP8rMkt4Tr+xhMiWAhyI11SWqJ5sGGDIp7SPzD72RniGKYHfZkMnGnJZnlTdcLbYc8LHnWyXhxDwBEUX4+RZH8+wxJzcEomN5gE2bmJZpDFwCNiwBlXtUd+T0drwhil9phiARuFxRup/LNOnGQ0tup6X38d+T71WkADfv+DKnGtEDT8kFmGSztojAjYM5bSl647pooBRZeWVBixyxoSq6CkpQIrWGDHDs3h7D27oH6CRupVVXdwfmmYfWoEe8o+D3ngweBw1opQ+XdwdF5+jw=
+  file: ".pioenvs/esp12e/firmware.bin"
+  on:
+    repo: chris03/esp-ota
+    all_branches: true
+    tags: true
+  skip_cleanup: true
