@@ -6,7 +6,7 @@ ADC_MODE(ADC_VCC);
 
 const char *plainContentType = "text/plain";
 size_t len;
-char buff[150];
+char buff[512];
 
 void setupWeb()
 {
@@ -14,13 +14,15 @@ void setupWeb()
     server.on("/", []() {
         // Format output
         len = snprintf(buff, sizeof(buff),
-                       "CoreVersion: %s\nSdkVersion: %s\nFlashChipRealSize: %i\nFreeSketchSpace: %i\nFreeHeap: %i\nVCC: %i",
-                       ESP.getCoreVersion().c_str(),
-                       ESP.getSdkVersion(),
+                       "Version: %s\nFlashChipRealSize: %i\nFlashChipId: %i\nFlashChipSizeByChipId: %i\nFreeSketchSpace: %i\nFreeHeap: %i\nVCC: %i\nCPU Freq: %i",
+                       ESP.getFullVersion().c_str(),
                        ESP.getFlashChipRealSize() / 1024,
+                       ESP.getFlashChipId(),
+                       ESP.getFlashChipSizeByChipId(),
                        ESP.getFreeSketchSpace(),
                        ESP.getFreeHeap(),
-                       ESP.getVcc());
+                       ESP.getVcc(),
+                       ESP.getCpuFreqMHz());
 
         server.send_P(200, plainContentType, buff, len);
     });
